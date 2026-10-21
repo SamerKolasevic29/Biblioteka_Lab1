@@ -1,10 +1,10 @@
 package Controller;
-
-import ch.qos.logback.core.model.Model;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import data.BibliotekaData;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
@@ -24,10 +24,10 @@ public class BibliotekaController {
         return "members";
     }
 
-    @GetMapping("/members/{amout}")
-    public String GetMmbersMoreThan(@PathVariable int amout, Model model) {
-        model.addAttribute("members", bibliotekadata.MoreThanParam(amout));
-        model.addAttribute("amout", amout);
+    @GetMapping("/members/{amount}")
+    public String GetMmbersMoreThan(@PathVariable int amount, Model model) {
+        model.addAttribute("members", bibliotekadata.MoreThanParam(amount));
+        model.addAttribute("amount", amount);
 
         return "members-filtered";
     }

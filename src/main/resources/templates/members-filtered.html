@@ -6,7 +6,7 @@
     <title>Members filtered</title>
 </head>
 <body>
-<h1>Our members with <span th:text="${amout}">0</span> </h1>
+<h1>Our members with <span th:text="${amount}">0</span> </h1>
 <table border="1">
     <thead>
     <tr>
@@ -17,11 +17,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${members}">
-        <td th:text="${members.id}">1</td>
-        <td th:text="${members.name}"></td>
-        <td th:text="${mambers.surname}"></td>
-        <td th:text="${members.cash}"></td>
+    <tr th:each="member : ${members}">
+        <td th:text="${member.id}">1</td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${member.surname}"></td>
+        <td th:text="${member.cash}"></td>
     </tr>
     </tbody>
 </table>
