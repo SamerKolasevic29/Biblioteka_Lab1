@@ -65,3 +65,4 @@ SQL inicijalizacija je omogućena (`spring.sql.init.mode=always`), a `src/main/r
 Nakon pokretanja otvoriti `http://localhost:8080/loans` ili pozvati REST endpoint-e preko `/api`.
 
 Autori: Tajra Tašić (556), Samer Kolasevic (529).
+**KORIŠTEN INTEGRISANI AI UNUTAR JETBRAINS ALATA (github copilot sa edu packom)**
