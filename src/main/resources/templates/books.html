@@ -1,29 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>Books</title>
+    <title>Knjige</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Nase Knjigice</h1>
-    <table border="1">
-        <thead>
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" th:href="@{/}">Biblioteka</a>
+        <div class="nav-links">
+            <a class="nav-link" th:href="@{/members}">Članovi</a>
+            <a class="nav-link" th:href="@{/books}">Knjige</a>
+            <a class="nav-link" th:href="@{/loans}">Pozajmice</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <section class="page-card">
+        <h1>Spisak knjiga</h1>
+        <p class="subtitle">Pregled knjiga koje su dostupne u sistemu.</p>
+        <div class="table-wrapper">
+            <table>
+                <thead>
         <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Price</th>
+            <th>Naslov</th>
+            <th>Autor</th>
+            <th>Cijena</th>
         </tr>
-        </thead>
-        <tbody>
+                </thead>
+                <tbody>
         <tr th:each="book : ${books}">
             <td th:text="${book.id}">1</td>
             <td th:text="${book.title}"></td>
             <td th:text="${book.author}"></td>
             <td th:text="${book.price}"></td>
         </tr>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
 </body>
 </html>

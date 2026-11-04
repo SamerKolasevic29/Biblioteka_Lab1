@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pozajmice</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" th:href="@{/}">Biblioteka</a>
+        <div class="nav-links">
+            <a class="nav-link" th:href="@{/members}">Članovi</a>
+            <a class="nav-link" th:href="@{/books}">Knjige</a>
+            <a class="nav-link" th:href="@{/loans}">Pozajmice</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <section class="page-card">
+        <h1>Pozajmice</h1>
+        <p class="subtitle">Dodaj novu pozajmicu i prati postojeće evidencije.</p>
+
+        <form method="post" th:action="@{/loans}">
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="memberId">Član</label>
+                    <select id="memberId" name="memberId" required>
+                        <option value="" selected disabled>Izaberi člana</option>
+                        <option th:each="member : ${members}" th:value="${member.id}"
+                                th:text="${member.name + ' ' + member.surname}"></option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="bookId">Knjiga</label>
+                    <select id="bookId" name="bookId" required>
+                        <option value="" selected disabled>Izaberi knjigu</option>
+                        <option th:each="book : ${books}" th:value="${book.id}"
+                                th:text="${book.title + ' - ' + book.author}"></option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="datumPozajmljivanja">Datum pozajmljivanja</label>
+                    <input id="datumPozajmljivanja" name="datumPozajmljivanja" type="date" required>
+                </div>
+
+                <div class="form-field">
+                    <label>&nbsp;</label>
+                    <button type="submit">Dodaj pozajmicu</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Član</th>
+                    <th>Knjiga</th>
+                    <th>Datum pozajmljivanja</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="loan : ${loans}">
+                    <td th:text="${loan.id}"></td>
+                    <td th:text="${loan.member.name + ' ' + loan.member.surname}"></td>
+                    <td th:text="${loan.book.title}"></td>
+                    <td th:text="${loan.datumPozajmljivanja}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>
