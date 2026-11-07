@@ -1,23 +1,34 @@
 package model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Member {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String surname;
     private int cash;
 
-    private List<Book>  books = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    private List<Pozajmica> pozajmice = new ArrayList<>();
 
     public Member() {};
 
-    public Member(Long Id, String Name, String Surname, int Cash) {
-        id = Id;
-        name = Name;
-        surname = Surname;
-        cash = Cash;
+    public Member(Long id, String name, String surname, int cash) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.cash = cash;
     }
 
     public Long getId() {
@@ -52,13 +63,11 @@ public class Member {
         this.cash = cash;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public List<Pozajmica> getPozajmice() {
+        return pozajmice;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setPozajmice(List<Pozajmica> pozajmice) {
+        this.pozajmice = pozajmice;
     }
 }
-
-

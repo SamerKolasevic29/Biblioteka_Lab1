@@ -2,49 +2,76 @@ package data;
 
 import model.Book;
 import model.Member;
+import model.Pozajmica;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Filter;
 
-public class BibliotekaData {
-    private final Map<Long, Member> members = new LinkedHashMap<>();
-    private final Map<Long, Book> books = new LinkedHashMap<>();
+@Service
+public class BibliotekaData implements CommandLineRunner {
+    private final MemberRepository memberRepository;
+    private final BookRepository bookRepository;
+    private final PozajmicaRepository pozajmicaRepository;
 
-
-    public BibliotekaData() {
-        SaveBook(new Book(222L, "1984", "Orwell", 40));
-        SaveBook(new Book(333L, "Zivotinjska farma", "Orwell", 30));
-        SaveBook(new Book(444L, "SAmom sebi", "Marko Aurelije", 12));
-
-        SaveMember(new Member(123L, "Tajra", "Tasic", 999));
-        SaveMember(new Member(456L, "Samer", "Kolasevic", 200));
+    public BibliotekaData(MemberRepository memberRepository,
+                          BookRepository bookRepository,
+                          PozajmicaRepository pozajmicaRepository) {
+        this.memberRepository = memberRepository;
+        this.bookRepository = bookRepository;
+        this.pozajmicaRepository = pozajmicaRepository;
     }
 
-    public Member SaveMember(Member m) {
-        members.put(m.getId(), m);
-        return m;
-    }
-
-    public Book SaveBook(Book b) {
-        books.put(b.getId(), b);
-        return b;
-    }
-
-    public List<Member> FindallMembers() {return new ArrayList<>(members.values());}
-    public List<Book>   FindAllBooks() {return new ArrayList<>(books.values());}
-    public List<Member> MoreThanParam(int param) {
-
-        List<Member> FilteredList = new ArrayList<Member>();
-
-        for(Member m : members.values()) {
-            if(m.getCash() >= param) {
-                FilteredList.add(m);}
+    @Override
+    public void run(String... args) {
+        if (memberRepository.count() == 0) {
+            memberRepository.save(new Member(null, "Tajra", "Tasic", 999));
+            memberRepository.save(new Member(null, "Samer", "Kolasevic", 200));
         }
+        if (bookRepository.count() == 0) {
+            bookRepository.save(new Book(null, "1984", "Orwell", 40));
+            bookRepository.save(new Book(null, "Zivotinjska farma", "Orwell", 30));
+            bookRepository.save(new Book(null, "Samom sebi", "Marko Aurelije", 12));
+        }
+    }
 
-        return FilteredList;
+    public Member saveMember(Member member) {
+        return memberRepository.save(member);
+    }
 
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
+    }
+
+    public Pozajmica savePozajmica(Pozajmica pozajmica) {
+        return pozajmicaRepository.save(pozajmica);
+    }
+
+    public List<Member> findAllMembers() {
+        return memberRepository.findAll();
+    }
+
+    public List<Book> findAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    public List<Pozajmica> findAllPozajmice() {
+        return pozajmicaRepository.findAll();
+    }
+
+    public List<Member> moreThanParam(int param) {
+        return memberRepository.findAll().stream()
+                .filter(member -> member.getCash() >= param)
+                .toList();
+    }
+
+    public Member findMember(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Member nije pronađen: " + id));
+    }
+
+    public Book findBook(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Book nije pronađen: " + id));
     }
 }
